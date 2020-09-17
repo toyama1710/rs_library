@@ -2,8 +2,6 @@
 
 use::std::io::stdin;
 use::std::io::Read;
-use::std::str::FromStr;
-use::std::fmt::Debug;
 
 pub struct Scanner {
     idx: usize, 
@@ -22,9 +20,9 @@ impl Scanner {
         }
     }
 
-    fn read<T: FromStr> (&mut self) -> T 
+    fn read<T: std::str::FromStr> (&mut self) -> T 
     where
-        <T as std::str::FromStr>::Err: Debug,
+        <T as std::str::FromStr>::Err: std::fmt::Debug,
     {
         if self.idx >= self.buf.len() {
             panic!("reached the end of input")
