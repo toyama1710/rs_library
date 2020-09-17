@@ -1,3 +1,4 @@
+#[allow(unused_imports)]
 use crate::rs_io::Scanner;
 
 #[test]
