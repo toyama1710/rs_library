@@ -1,20 +1,17 @@
 #[allow(dead_code)]
 
-use::std::io::stdin;
-use::std::io::Read;
-
 pub struct Scanner {
     idx: usize, 
     buf: Vec<String>,
 }
 
 impl Scanner {
-    pub fn new() -> Scanner {
+    pub fn new<T: std::io::Read>(inf: &mut T) -> Scanner {
         Self {
             idx:0,
             buf: {
                 let mut s = String::new();
-                stdin().read_to_string(&mut s).ok();
+                inf.read_to_string(&mut s).expect("I/O error");
                 s.split_whitespace().map(|x| x.to_owned()).collect()
             },
         }
