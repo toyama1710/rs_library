@@ -17,15 +17,19 @@ impl Scanner {
         }
     }
 
-    fn read<T: std::str::FromStr> (&mut self) -> T 
+    pub fn read<T: std::str::FromStr> (&mut self) -> T 
     where
         <T as std::str::FromStr>::Err: std::fmt::Debug,
     {
-        if self.idx >= self.buf.len() {
+        if self.empty() {
             panic!("reached the end of input")
         }
         let ret = self.buf[self.idx].parse::<T>().expect("parse error");
         self.idx += 1;
         return ret;
+    }
+
+    pub fn empty(&self) -> bool {
+        return self.idx >= self.buf.len();
     }
 }
