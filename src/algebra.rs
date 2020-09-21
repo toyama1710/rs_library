@@ -1,4 +1,4 @@
-pub trait Magma: Sized {
+pub trait Magma: Sized + Clone {
     fn op(&self, rhs: &Self) -> Self;
 }
 
