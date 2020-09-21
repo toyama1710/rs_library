@@ -22,7 +22,7 @@ impl<T: Monoid> SegmentTree<T> {
     }
 
     pub fn get(&self, i: usize) -> &T {
-        return self.tree[i + self.len()];
+        return &self.tree[i + self.len()];
     }
 
     pub fn fold(&self, ran:Range<usize>) -> T {
