@@ -21,6 +21,10 @@ impl<T: Monoid> SegmentTree<T> {
         }
     }
 
+    pub fn get(&self, i: usize) -> &T {
+        return self.tree[i + self.len()];
+    }
+
     pub fn fold(&self, ran:Range<usize>) -> T {
         let mut l = ran.start + self.len();
         let mut r = ran.end + self.len();
@@ -36,8 +40,8 @@ impl<T: Monoid> SegmentTree<T> {
                 ret = ret.op(&self.tree[r]);
             }
 
-            l /= 1;
-            r /= 1;
+            l /= 2;
+            r /= 2;
         }
 
         return ret;
