@@ -57,7 +57,7 @@ impl<M: Monoid> From<&Vec<M::T>> for SegmentTree<M> {
     fn from(arr: &Vec<M::T>) -> Self {
         let mut dat = vec![M::identity(); arr.len() * 2];
         let n = arr.len();
-        dat.clone_from_slice(arr);
+        dat[n..2*n].clone_from_slice(arr);
 
         for i in (1..n).rev() {
             dat[i] = M::op(&dat[i * 2], &dat[i * 2 + 1]);
