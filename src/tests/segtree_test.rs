@@ -14,6 +14,7 @@ impl Monoid for Min {
     }
 }
 
+#[allow(dead_code)]
 struct Line();
 impl Monoid for Line {
     type T = (i64, i64);
