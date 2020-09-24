@@ -35,6 +35,10 @@ impl<M: Monoid> DynamicSegmentTree<M> {
         Self::update_dfs(&mut self.root, &self.range, idx, dat.clone());
     }
 
+    pub fn get(&self, idx: isize) -> M::T {
+        return self.fold(idx..idx+1);
+    }
+
     pub fn fold(&self, r: Range<isize>) -> M::T {
         return Self::fold_dfs(self.root.as_ref(), &self.range, &r);
     }
