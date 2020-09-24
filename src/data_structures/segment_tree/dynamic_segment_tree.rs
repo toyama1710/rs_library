@@ -19,7 +19,7 @@ impl<M: Monoid> DSTNode<M> {
 
 pub struct DynamicSegmentTree<M: Monoid> {
     root: Box<DSTNode<M>>,
-    range: Range<isize>,
+    pub range: Range<isize>,
 }
 
 impl<M: Monoid> DynamicSegmentTree<M> {
@@ -49,8 +49,7 @@ impl<M: Monoid> DynamicSegmentTree<M> {
             return M::identity();
         }
 
-        let mut lv = M::identity();
-        let mut rv = M::identity();
+        let (mut lv, mut rv) = (M::identity(), M::identity());
         let mid = (trange.start + trange.end) / 2;
         if let Some(v) = &u.left {
             lv = Self::fold_dfs(v, &(trange.start..mid), qrange);
@@ -70,7 +69,7 @@ impl<M: Monoid> DynamicSegmentTree<M> {
             self.root.as_mut().right = Some(u);
             self.range.start -= len;
         }
-        while self.range.end < idx {
+        while self.range.end <= idx {
             let len = self.range.end - self.range.start;
             let mut u = Box::new(DSTNode::new(self.root.as_ref().val.clone(), None, None));
             std::mem::swap(&mut u, &mut self.root);
@@ -80,8 +79,7 @@ impl<M: Monoid> DynamicSegmentTree<M> {
     }
 
     fn eval(u: &mut DSTNode<M>) {
-        let mut lv = M::identity();
-        let mut rv = M::identity();
+        let (mut lv, mut rv) = (M::identity(), M::identity());
         if let Some(v) = &u.left {
             lv = v.as_ref().val.clone();
         }
@@ -97,7 +95,6 @@ impl<M: Monoid> DynamicSegmentTree<M> {
             return;
         }
 
-
         let mid = (trange.start + trange.end) / 2;
 
         if idx < mid {
@@ -111,7 +108,7 @@ impl<M: Monoid> DynamicSegmentTree<M> {
             if u.right.is_none() {
                 u.right = Some(Box::new(DSTNode::new(M::identity(), None, None)));
             }
-            Self::update_dfs(u.right.as_mut().unwrap(), &(trange.start..mid), idx, dat);
+            Self::update_dfs(u.right.as_mut().unwrap(), &(mid..trange.end), idx, dat);
             Self::eval(u);
         }
     }

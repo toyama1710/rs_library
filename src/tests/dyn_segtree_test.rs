@@ -30,14 +30,22 @@ impl Monoid for Line {
 fn test_sum() {
     let mut seg = DynamicSegmentTree::<Sum>::new();
 
+    println!("{:?}", seg.range);
     seg.update(1, 5);
+    println!("{:?}", seg.range);
     seg.update(1024, 1710);
+    println!("{:?}", seg.range);
+    seg.update(-100, 128);
+    println!("{:?}", seg.range);
 
     assert_eq!(seg.fold(1..2), 5);
     assert_eq!(seg.fold(0..5), 5);
     assert_eq!(seg.fold(2..1024), 0);
     assert_eq!(seg.fold(-5..1), 0);
     assert_eq!(seg.fold(-5..100000000), 1715);
+    assert_eq!(seg.fold(-100..1), 128);
+    assert_eq!(seg.fold(-100..-99), 128);
+    assert_eq!(seg.fold(-1000..-900), 0);
 }
 
 #[test]
