@@ -13,7 +13,7 @@ impl<T: Ord> SHNode<T> {
     }
 }
 
-struct SkewHeap<T: Ord> {
+pub struct SkewHeap<T: Ord> {
     root: Option<Box<SHNode<T>>>,
     sz: usize,
 }
@@ -27,6 +27,7 @@ impl<T: Ord> SkewHeap<T> {
     }
 
     pub fn push(&mut self, val: T) {
+        self.sz += 1;
         let u = Box::new(SHNode::new(val));
         let r = self.root.take();
         self.root = Self::meld(r, Some(u));
@@ -41,6 +42,7 @@ impl<T: Ord> SkewHeap<T> {
         let r = self.root.take();
         match r {
             Some(r) => {
+                self.sz -= 1;
                 self.root = Self::meld(r.left, r.right);
                 return Some(r.val);
             },
