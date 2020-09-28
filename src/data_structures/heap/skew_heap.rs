@@ -67,7 +67,7 @@ impl<T: Ord> SkewHeap<T> {
 
         let mut h1 = h1.unwrap();
         let mut h2 = h2.unwrap();
-        if h2.val < h1.val { std::mem::swap(&mut h1, &mut h2); }
+        if h2.val > h1.val { std::mem::swap(&mut h1, &mut h2); }
         h1.right = Self::meld(h1.right, Some(h2));
 
         return Some(h1);
