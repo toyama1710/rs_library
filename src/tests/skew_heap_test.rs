@@ -41,3 +41,35 @@ fn skew_heap_min() {
     assert_eq!(p_que.pop(), Some(Reverse((1, 2))));
     assert_eq!(p_que.pop(), Some(Reverse((100, -1))));
 }
+
+#[test]
+fn skew_heap_merge() {
+    use crate::data_structures::heap::skew_heap::SkewHeap;
+
+    let mut p1 = SkewHeap::new();
+    let mut p2 = SkewHeap::new();
+
+    p1.push(1);
+    p1.push(10);
+    p1.push(7);
+    p2.push(5);
+    p2.push(5);
+    p2.push(11);
+
+    assert_eq!(p1.len(), 3);
+
+    p1.append(&mut p2);
+
+    assert_eq!(p2.is_empty(), true);
+    assert_eq!(p2.len(), 0);
+    assert_eq!(p2.peek(), None);
+
+    assert_eq!(p1.len(), 6);
+    assert_eq!(p1.pop(), Some(11));
+    assert_eq!(p1.pop(), Some(10));
+    assert_eq!(p1.pop(), Some(7));
+    assert_eq!(p1.pop(), Some(5));
+    assert_eq!(p1.pop(), Some(5));
+    assert_eq!(p1.pop(), Some(1));
+    assert_eq!(p1.pop(), None);
+}

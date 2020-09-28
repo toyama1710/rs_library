@@ -49,9 +49,12 @@ impl<T: Ord> SkewHeap<T> {
             None => None,
         }
     }
-    pub fn merge_with(&mut self, other: Self) {
+    pub fn append(&mut self, other: &mut Self) {
+        self.sz += other.sz;
         let r = self.root.take();
-        self.root = Self::meld(r, other.root);
+        let mut u = Self::new();
+        std::mem::swap(&mut u, other);
+        self.root = Self::meld(r, u.root);
     }
 
     pub fn len(&self) -> usize {
