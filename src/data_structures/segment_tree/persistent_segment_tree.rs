@@ -26,6 +26,9 @@ impl<M: Monoid> PersistentSegmentTree<M> {
     pub fn fold(&self, ran: Range<usize>) -> M::T {
         return Self::__fold(self.root.as_ref(), 0..self.n, &ran);
     }
+    pub fn get(&self, idx: usize) -> M::T {
+        return self.fold(idx..idx+1);
+    }
 
     pub fn update(&mut self, idx: usize, dat: M::T) {
         self.root = Self::__update(self.root.as_ref(), 0..self.n, idx, dat).unwrap();
