@@ -11,6 +11,8 @@ impl<M: Monoid> DualSegmentTree<M> {
     pub fn update(&mut self, mut ran: Range<usize>, d: M::T) {
         ran.start += self.len();
         ran.end += self.len();
+        self.push_down(ran.start);
+        self.push_down(ran.end - 1);
 
         while ran.start < ran.end {
             if ran.start % 2 == 1 {
