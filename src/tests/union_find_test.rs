@@ -17,6 +17,4 @@ fn union_find_test() {
     assert_eq!(uf.len(3), 5);
 
     assert_eq!(uf.represent(6), 6);
-
-    panic!()
 }
