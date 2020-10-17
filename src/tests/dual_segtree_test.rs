@@ -30,6 +30,8 @@ fn test_assign() {
     for i in 30..60 { naive[i] = Some(-1); }
     seg.update(15..33, Some(0));
     for i in 15..33 { naive[i] = Some(0); }
+    seg.update(16..32, Some(5));
+    for i in 16..32 { naive[i] = Some(5); }
 
     for i in 0..n {
         assert_eq!(seg.get(i), naive[i]);
