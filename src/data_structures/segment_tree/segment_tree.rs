@@ -1,5 +1,6 @@
 use crate::algebra::Monoid;
-use std::ops::Range;
+use std::ops::RangeBounds;
+use std::ops::Bound::*;
 
 pub struct SegmentTree<M: Monoid> {
     tree: Vec<M::T>,
@@ -25,18 +26,29 @@ impl<M: Monoid> SegmentTree<M> {
         return &self.tree[i + self.len()];
     }
 
-    pub fn fold(&self, ran:Range<usize>) -> M::T {
-        let mut l = ran.start + self.len();
-        let mut r = ran.end + self.len();
+    pub fn fold<R>(&self, ran:R) -> M::T 
+        where R: RangeBounds<usize>
+    {
+        let (mut l, mut r);
+        match ran.start_bound() {
+            Unbounded => l = self.len(),
+            Included(s) => l = *s + self.len(),
+            Excluded(s) => l = *s + 1 + self.len(),
+        }
+        match ran.end_bound() {
+            Unbounded => r = self.len() + self.len(),
+            Included(t) => r = *t + 1 + self.len(),
+            Excluded(t) => r = *t + self.len(),
+        }
         let mut lv = M::identity();
         let mut rv = M::identity();
 
         while l < r {
-            if l & 1 == 1 {
+            if l % 2 == 1 {
                 lv = M::op(&lv, &self.tree[l]);
                 l += 1;
             }
-            if r & 1 == 1 {
+            if r % 2 == 1 {
                 r -= 1;
                 rv = M::op(&self.tree[r], &rv);
             }

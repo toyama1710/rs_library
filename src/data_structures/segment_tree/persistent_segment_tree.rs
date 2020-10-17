@@ -1,6 +1,8 @@
 use crate::algebra::Monoid;
 use std::rc::Rc;
 use std::ops::Range;
+use std::ops::RangeBounds;
+use std::ops::Bound::*;
 
 struct PSTNode<M: Monoid> {
     val: M::T,
@@ -23,8 +25,21 @@ impl<M: Monoid> PersistentSegmentTree<M> {
         }
     }
 
-    pub fn fold(&self, ran: Range<usize>) -> M::T {
-        return Self::__fold(self.root.as_ref(), 0..self.n, &ran);
+    pub fn fold<R>(&self, ran: R) -> M::T
+        where R: RangeBounds<usize>
+    {
+        let (l, r);
+        match ran.start_bound() {
+            Unbounded => l = 0,
+            Included(s) => l = *s,
+            Excluded(s) => l = *s + 1,
+        }
+        match ran.end_bound() {
+            Unbounded => r = self.len(),
+            Included(t) => r = *t + 1,
+            Excluded(t) => r = *t,
+        }
+        return Self::__fold(self.root.as_ref(), 0..self.n, &(l..r));
     }
     pub fn get(&self, idx: usize) -> M::T {
         return self.fold(idx..idx+1);
@@ -32,6 +47,10 @@ impl<M: Monoid> PersistentSegmentTree<M> {
 
     pub fn update(&mut self, idx: usize, dat: M::T) {
         self.root = Self::__update(self.root.as_ref(), 0..self.n, idx, dat).unwrap();
+    }
+
+    pub fn len(&self) -> usize {
+        return self.n;
     }
 }
 
