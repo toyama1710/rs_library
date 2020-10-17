@@ -45,7 +45,7 @@ fn test_sum() {
     assert_eq!(seg.fold(-5..100000000), 1715);
     assert_eq!(seg.fold(-100..1), 128);
     assert_eq!(seg.fold(-100..-99), 128);
-    assert_eq!(seg.fold(-1000..-900), 0);
+    assert_eq!(seg.fold(..-900), 0);
 }
 
 #[test]
@@ -55,7 +55,7 @@ fn test_line() {
 
     seg.update(0, (3, 1));
 
-    assert_eq!(seg.fold(0..n), (3, 1));
+    assert_eq!(seg.fold(..), (3, 1));
 
     seg.update(0, Line::identity());
     seg.update(2, (3, 1));

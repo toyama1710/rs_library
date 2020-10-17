@@ -1,5 +1,7 @@
 use crate::algebra::Monoid;
 use std::ops::Range;
+use std::ops::RangeBounds;
+use std::ops::Bound::*;
 
 struct DSTNode<M: Monoid> {
     val: M::T,
@@ -36,11 +38,25 @@ impl<M: Monoid> DynamicSegmentTree<M> {
     }
 
     pub fn get(&self, idx: isize) -> M::T {
-        return self.fold(idx..idx+1);
+        return self.fold(idx..=idx);
     }
 
-    pub fn fold(&self, r: Range<isize>) -> M::T {
-        return Self::fold_dfs(self.root.as_ref(), &self.range, &r);
+    pub fn fold<R>(&self, ran: R) -> M::T 
+        where R: RangeBounds<isize>
+    {
+        let (l, r);
+        match ran.start_bound() {
+            Unbounded => l = self.range.start,
+            Included(s) => l = *s,
+            Excluded(s) => l = *s + 1,
+        }
+        match ran.end_bound() {
+            Unbounded => r = self.range.end,
+            Included(t) => r = *t + 1,
+            Excluded(t) => r = *t,
+        }
+
+        return Self::fold_dfs(self.root.as_ref(), &self.range, &(l..r));
     }
 }
 
