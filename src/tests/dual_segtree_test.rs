@@ -20,7 +20,7 @@ fn test_assign() {
     let mut seg = DualSegmentTree::<RangeAssign>::new(n);
     let mut naive = vec![None; n];
 
-    seg.update(0..n, Some(10));
+    seg.update(.., Some(10));
     for i in 0..n { naive[i] = Some(10); }
     seg.update(10..20, Some(128));
     for i in 10..20 { naive[i] = Some(128); }
@@ -52,7 +52,7 @@ fn test_add() {
     let mut seg = DualSegmentTree::<RangeAdd>::new(n);
     let mut naive = vec![0; n];
 
-    seg.update(100..n, 3);
+    seg.update(100.., 3);
     for i in 100..n { naive[i] += 3; }
     seg.update(70..80, -3);
     for i in 70..80 { naive[i] += -3; }
@@ -62,8 +62,8 @@ fn test_add() {
     for i in 30..70 { naive[i] += 90; }
     seg.update(50..60, -90);
     for i in 50..60 { naive[i] += -90; }
-    seg.update(40..51, 32);
-    for i in 40..51 { naive[i] += 32; }
+    seg.update(40..=50, 32);
+    for i in 40..=50 { naive[i] += 32; }
 
     for i in 0..n {
         assert_eq!(seg.get(i), naive[i]);

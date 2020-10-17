@@ -1,5 +1,6 @@
-use std::ops::Range;
 use crate::algebra::Monoid;
+use core::ops::Bound::*;
+use std::ops::RangeBounds;
 
 pub struct DualSegmentTree<M: Monoid> (Vec<M::T>);
 
@@ -8,23 +9,35 @@ impl<M: Monoid> DualSegmentTree<M> {
         Self(vec![M::identity(); 2*n])
     }
 
-    pub fn update(&mut self, mut ran: Range<usize>, d: M::T) {
-        ran.start += self.len();
-        ran.end += self.len();
-        self.push_down(ran.start);
-        self.push_down(ran.end - 1);
+    pub fn update<R>(&mut self, ran: R, d: M::T) 
+        where R:RangeBounds<usize>
+    {
+        let (mut l, mut r);
+        match ran.start_bound() {
+            Unbounded => l = self.len(),
+            Included(s) => l = *s + self.len(),
+            Excluded(s) => l = *s + self.len() + 1,
+        }
+        match ran.end_bound() {
+            Unbounded => r = self.len() + self.len(),
+            Included(t) => r = t + self.len() + 1,
+            Excluded(t) => r = t + self.len(),
+        }
 
-        while ran.start < ran.end {
-            if ran.start % 2 == 1 {
-                self.0[ran.start] = M::op(&self.0[ran.start], &d);
-                ran.start += 1;
+        self.push_down(l);
+        self.push_down(r);
+
+        while l < r {
+            if l % 2 == 1 {
+                self.0[l] = M::op(&self.0[l], &d);
+                l += 1;
             }
-            if ran.end % 2 == 1 {
-                ran.end -= 1;
-                self.0[ran.end] = M::op(&self.0[ran.end], &d);
+            if r % 2 == 1 {
+                r -= 1;
+                self.0[r] = M::op(&self.0[r], &d);
             }
-            ran.start /= 2;
-            ran.end /= 2;
+            l /= 2;
+            r /= 2;
         }
     }
 
