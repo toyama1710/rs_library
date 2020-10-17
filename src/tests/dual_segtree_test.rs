@@ -39,8 +39,8 @@ fn test_assign() {
 struct RangeAdd();
 impl Monoid for RangeAdd {
     type T = i32;
-    fn identity() -> i32 { return 0; }
-    fn op(lhs: &i32, rhs: &i32) -> i32 {
+    fn identity() -> Self::T { return 0; }
+    fn op(lhs: &Self::T, rhs: &Self::T) -> Self::T {
         return lhs + rhs;
     }
 }
