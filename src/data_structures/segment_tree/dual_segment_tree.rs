@@ -1,5 +1,5 @@
 use crate::algebra::Monoid;
-use core::ops::Bound::*;
+use std::ops::Bound::*;
 use std::ops::RangeBounds;
 
 pub struct DualSegmentTree<M: Monoid> (Vec<M::T>);
