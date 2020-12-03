@@ -1,5 +1,3 @@
-#[allow(unused_imports)]
-use crate::data_structures::segment_tree::dynamic_segment_tree::DynamicSegmentTree;
 use crate::algebra::Monoid;
 
 #[allow(dead_code)]
@@ -21,13 +19,13 @@ impl Monoid for Line {
         return (1, 0);
     }
     fn op(a: &Self::T, b: &Self::T) -> Self::T {
-        return (a.0*b.0,
-                a.0*b.1 + a.1);
+        return (a.0 * b.0, a.0 * b.1 + a.1);
     }
 }
 
 #[test]
 fn test_sum() {
+    use crate::data_structures::segment_tree::DynamicSegmentTree;
     let mut seg = DynamicSegmentTree::<Sum>::new();
 
     println!("{:?}", seg.range);
@@ -50,6 +48,7 @@ fn test_sum() {
 
 #[test]
 fn test_line() {
+    use crate::data_structures::segment_tree::DynamicSegmentTree;
     let mut seg = DynamicSegmentTree::<Line>::new();
     let n = 8;
 

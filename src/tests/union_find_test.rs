@@ -1,6 +1,6 @@
 #[test]
 fn union_find_test() {
-    use crate::data_structures::disjoint_set::union_find::UnionFind;
+    use crate::data_structures::disjoint_set::UnionFind;
 
     let mut uf = UnionFind::new(10);
 

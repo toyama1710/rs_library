@@ -1,6 +1,6 @@
-#[allow(unused_imports)]
-use crate::data_structures::segment_tree::segment_tree::SegmentTree;
 use crate::algebra::Monoid;
+#[allow(unused_imports)]
+use crate::data_structures::segment_tree::SegmentTree;
 
 #[allow(dead_code)]
 struct Min();
@@ -22,8 +22,7 @@ impl Monoid for Line {
         return (1, 0);
     }
     fn op(a: &Self::T, b: &Self::T) -> Self::T {
-        return (a.0*b.0,
-                a.0*b.1 + a.1);
+        return (a.0 * b.0, a.0 * b.1 + a.1);
     }
 }
 

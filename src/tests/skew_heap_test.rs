@@ -1,6 +1,6 @@
 #[test]
 fn skew_heap_max() {
-    use crate::data_structures::heap::skew_heap::SkewHeap;
+    use crate::data_structures::heap::SkewHeap;
     let mut p_que = SkewHeap::new();
 
     assert_eq!(p_que.is_empty(), true);

@@ -20,10 +20,7 @@ pub struct SkewHeap<T: Ord> {
 
 impl<T: Ord> SkewHeap<T> {
     pub fn new() -> Self {
-        Self {
-            root: None,
-            sz: 0,
-        }
+        Self { root: None, sz: 0 }
     }
 
     pub fn push(&mut self, val: T) {
@@ -45,7 +42,7 @@ impl<T: Ord> SkewHeap<T> {
                 self.sz -= 1;
                 self.root = Self::meld(r.left, r.right);
                 return Some(r.val);
-            },
+            }
             None => None,
         }
     }
@@ -67,12 +64,17 @@ impl<T: Ord> SkewHeap<T> {
 
 impl<T: Ord> SkewHeap<T> {
     fn meld(h1: Option<Box<SHNode<T>>>, h2: Option<Box<SHNode<T>>>) -> Option<Box<SHNode<T>>> {
-        if h1.is_none() { return h2; }
-        else if h2.is_none() { return h1; }
+        if h1.is_none() {
+            return h2;
+        } else if h2.is_none() {
+            return h1;
+        }
 
         let mut h1 = h1.unwrap();
         let mut h2 = h2.unwrap();
-        if h2.val > h1.val { std::mem::swap(&mut h1, &mut h2); }
+        if h2.val > h1.val {
+            std::mem::swap(&mut h1, &mut h2);
+        }
         h1.right = Self::meld(h1.right, Some(h2));
         std::mem::swap(&mut h1.right, &mut h1.left);
 

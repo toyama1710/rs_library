@@ -5,14 +5,13 @@ pub struct UnionFind {
 
 impl UnionFind {
     pub fn new(n: usize) -> Self {
-        Self{ par: vec![-1; n] }
+        Self { par: vec![-1; n] }
     }
 
     pub fn represent(&mut self, idx: usize) -> usize {
         if self.par[idx] < 0 {
             return idx;
-        }
-        else {
+        } else {
             self.par[idx] = self.represent(self.par[idx] as usize) as i32;
             return self.par[idx] as usize;
         }

@@ -2,15 +2,16 @@ use crate::algebra::Monoid;
 use std::ops::Bound::*;
 use std::ops::RangeBounds;
 
-pub struct DualSegmentTree<M: Monoid> (Vec<M::T>);
+pub struct DualSegmentTree<M: Monoid>(Vec<M::T>);
 
 impl<M: Monoid> DualSegmentTree<M> {
     pub fn new(n: usize) -> Self {
-        Self(vec![M::identity(); 2*n])
+        Self(vec![M::identity(); 2 * n])
     }
 
-    pub fn update<R>(&mut self, ran: R, d: M::T) 
-        where R:RangeBounds<usize>
+    pub fn update<R>(&mut self, ran: R, d: M::T)
+    where
+        R: RangeBounds<usize>,
     {
         let (mut l, mut r);
         match ran.start_bound() {
@@ -54,9 +55,11 @@ impl<M: Monoid> DualSegmentTree<M> {
 
 impl<M: Monoid> DualSegmentTree<M> {
     fn propagate(&mut self, k: usize) {
-        if k >= self.len() { return; }
-        self.0[k*2] = M::op(&self.0[k*2], &self.0[k]);
-        self.0[k*2+1] = M::op(&self.0[k*2+1], &self.0[k]);
+        if k >= self.len() {
+            return;
+        }
+        self.0[k * 2] = M::op(&self.0[k * 2], &self.0[k]);
+        self.0[k * 2 + 1] = M::op(&self.0[k * 2 + 1], &self.0[k]);
         self.0[k] = M::identity();
     }
     fn push_down(&mut self, k: usize) {

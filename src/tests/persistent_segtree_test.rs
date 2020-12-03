@@ -1,6 +1,6 @@
-#[allow(unused_imports)]
-use crate::data_structures::segment_tree::persistent_segment_tree::PersistentSegmentTree;
 use crate::algebra::Monoid;
+#[allow(unused_imports)]
+use crate::data_structures::segment_tree::PersistentSegmentTree;
 
 #[allow(dead_code)]
 struct Sum();
@@ -21,8 +21,7 @@ impl Monoid for Line {
         return (1, 0);
     }
     fn op(a: &Self::T, b: &Self::T) -> Self::T {
-        return (a.0*b.0,
-                a.0*b.1 + a.1);
+        return (a.0 * b.0, a.0 * b.1 + a.1);
     }
 }
 
